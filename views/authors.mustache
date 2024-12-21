@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yazarlar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .author-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .author-item {
+            text-align: center;
+            margin: 10px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .author-item img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            border: 2px solid #ddd;
+            padding: 5px;
+        }
+
+        .author-item h2 {
+            font-size: 1.2em;
+            margin: 0;
+            color: #555;
+        }
+
+        .no-authors {
+            text-align: center;
+            color: #999;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Yazarlar</h1>
+    <ul class="author-list">
+        {{#authors}}
+        <li class="author-item">
+            <img src="{{author_image}}" alt="{{name}}">
+            <h2>{{name}}</h2>
+        </li>
+        {{/authors}}
+        {{^authors}}
+        <li class="no-authors">Henüz yazar bulunamadı.</li>
+        {{/authors}}
+    </ul>
+</body>
+
+</html>

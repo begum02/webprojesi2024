@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Sesli Kitaplar</h1>
+<div class="book-list">
+    {% for book in books %}
+    <div class="book-card">
+        <img src="{{ book.cover_image.url }}" alt="{{ book.title }}">
+        <h3>{{ book.title }}</h3>
+        <p>Yazar: {{ book.author }}</p>
+        <a href="{% url 'audio-book-detail' book.pk %}">Dinle</a>
+    </div>
+    {% empty %}
+    <p>Henüz sesli kitap bulunamadı.</p>
+    {% endfor %}
+</div>
+{% endblock %}

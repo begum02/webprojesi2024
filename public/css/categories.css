@@ -1,0 +1,69 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #cdccb5;
+    /* Açık Bej Arka Plan */
+    color: #3b341a;
+    /* Koyu Kahverengi */
+}
+
+/* Başlık */
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: #244d06;
+    /* Koyu Yeşil */
+}
+
+/* Kategoriler Konteyner */
+.categories-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+.category {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+.category-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #3b341a;
+    /* Koyu Kahverengi */
+}
+
+.books-row {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding: 10px 0;
+}
+
+.book-item {
+    flex: 0 0 auto;
+    width: 120px;
+    height: 180px;
+    background-color: #e6e0d5;
+    /* Açık Bej Tonu */
+    border-radius: 5px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #494a50;
+    /* Koyu Gri */
+    font-size: 14px;
+}
+
+.book-item img {
+    max-width: 100%;
+    border-radius: 5px;
+}

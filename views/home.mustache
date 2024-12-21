@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitap Platformu</title>
+     <link rel="stylesheet" href="/css/home.css"> 
+
+</head>
+
+<body>
+  <script src="/js/home.js"></script>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#" class="logo">Soundsea</a>
+        <div class="nav-links">
+            <a href="/audio-books">Sesli Kitaplar</a>
+            <a href="/ebooks">E-Kitaplar</a>
+            <a href="/categories">Kategoriler</a>
+        </div>
+ <div class="auth-buttons">
+            {{#is_logged_in}}
+            <div class="user-initials">
+                {{user_first_initial}}
+            </div>
+  <div class="dropdown">
+      <div class="dropdown-content">
+        <a href="#" id="logoutButton">Çıkış Yap</a>
+      </div>
+</div>
+
+            {{/is_logged_in}}
+
+            {{^is_logged_in}}
+            <a href="/login" class="login-btn">Giriş Yap</a>
+            <a href="/register" class="subscribe-btn">Hemen Üye Ol</a>
+            {{/is_logged_in}}
+        </div>
+    </nav>
+
+     
+    <header>
+        <h1>Soundsea</h1>
+        <div class="search-section">
+            <div class="search-bar">
+                <input type="text" placeholder="Başlık, yazar veya kategori girin...">
+                <button>Ara</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Popüler Kitaplar -->
+     <h2 class="section-title">Popüler Kitaplar</h2>
+ <div class="book-row">
+    {{#popular_books}}
+    <div class="book-card">
+        <img src="{{cover_image}}" alt="{{title}}">
+        <h3>{{title}}</h3>
+        <p>{{author_name}}</p>
+        <a href="/book-detail/{{book_id}}">Detayları Gör</a>
+    </div>
+    {{/popular_books}}
+</div>
+
+
+
+
+    </div>
+</body>
+
+</html>

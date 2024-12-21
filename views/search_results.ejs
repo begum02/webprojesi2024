@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arama Sonuçları</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        /* Genel Stil */
+        body {
+            background-color: #cdccb5;
+            /* Açık Bej */
+            color: #3b341a;
+            /* Koyu Kahverengi */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Başlık */
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Arama Formu */
+        .search-form {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            width: 250px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 8px 12px;
+            background-color: #244d06;
+            /* Koyu Yeşil */
+            color: #cdccb5;
+            /* Açık Bej */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #2d5955;
+            /* Teal Tonu */
+        }
+
+        /* Arama Sonuçları */
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            justify-items: center;
+        }
+
+        .book-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .book-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .book-card h3 {
+            font-size: 16px;
+            margin: 10px 0;
+            color: #3b341a;
+        }
+
+        .book-card p {
+            font-size: 14px;
+            margin: 5px 0;
+            color: #244d06;
+        }
+
+        .book-card a {
+            text-decoration: none;
+            color: #244d06;
+            font-weight: bold;
+        }
+
+        .book-card a:hover {
+            text-decoration: underline;
+        }
+
+        /* Sonuç Bulunamadı Mesajı */
+        .no-results {
+            text-align: center;
+            color: #3b341a;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Arama Sonuçları</h2>
+
+    <!-- Arama Formu -->
+    <div class="search-form">
+        <form method="GET" action="{% url 'book-search' %}">
+            <input type="text" name="q" placeholder="Kitap ara..." value="{{ query }}" required>
+            <button type="submit">Ara</button>
+        </form>
+    </div>
+
+    <!-- Arama Sonuçları -->
+    {% if results %}
+    <div class="book-grid">
+        {% for book in results %}
+        <div class="book-card">
+            <!-- Kitap Görseli -->
+            {% if book.cover_image %}
+            <img src="{{ book.cover_image.url }}" alt="{{ book.title }}">
+            {% endif %}
+            <!-- Kitap Başlık ve Yazar -->
+            <h3>{{ book.title }}</h3>
+            <p>Yazar: {{ book.author }}</p>
+            <!-- Kitap Detay Sayfasına Link -->
+            <a href="{% url 'book-detail' book.pk %}">Detayları Gör</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="no-results">Sonuç bulunamadı.</p>
+    {% endif %}
+</body>
+
+</html>

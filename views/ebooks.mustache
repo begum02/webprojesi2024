@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>E-Kitaplar</title>
+ <link rel="stylesheet" href="/css/ebook.css">
+  
+</head>
+
+<body>
+    <header>
+        <h1>E-Kitaplar</h1>
+    </header>
+
+   <div class="book-container">
+  {{#books}}
+  <div class="book-card">
+   <img src="{{cover_image}}" alt="{{title}}">
+    <h3>{{title}}</h3>
+    <p>Yazar: {{author.name}}</p>
+    <a href="/books/{{id}}">Detayları Gör</a>
+  </div>
+  {{/books}}
+  {{^books}}
+  <p>Henüz e-kitap eklenmedi.</p>
+  {{/books}}
+</div>
+
+</body>
+
+</html>

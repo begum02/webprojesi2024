@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ book.title }} - Kitap Detayı</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            background-color: #cdccb5;
+            /* Açık Bej */
+            font-family: Arial, sans-serif;
+            color: #3b341a;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin: 50px auto;
+            max-width: 1000px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .book-cover img {
+            width: 300px;
+            border-radius: 10px;
+        }
+
+        .book-info h1 {
+            margin-top: 0;
+            color: #244d06;
+            /* Koyu Yeşil */
+        }
+
+        .book-info p {
+            line-height: 1.5;
+        }
+
+        .comments,
+        .ratings {
+            margin-top: 20px;
+        }
+
+        .comments h2,
+        .ratings h2 {
+            color: #2d5955;
+            /* Koyu Teal */
+        }
+
+        textarea,
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            background-color: #244d06;
+            /* Koyu Yeşil */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2d5955;
+            /* Koyu Teal */
+        }
+
+        .action-links a {
+            color: #244d06;
+            text-decoration: none;
+        }
+
+        .action-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Arama Formu -->
+    <form method="GET" action="{% url 'book-search' %}" style="text-align: center; margin: 20px;">
+        <input type="text" name="q" placeholder="Kitap ara..." style="width: 300px;">
+        <button type="submit">Ara</button>
+    </form>
+
+    <!-- Kitap Detayları -->
+    <div class="container">
+        <!-- Kitap Kapağı -->
+        <div class="book-cover">
+            {% if book.cover_image %}
+            <img src="{{ book.cover_image.url }}" alt="{{ book.title }}">
+            {% endif %}
+        </div>
+
+        <!-- Kitap Bilgileri -->
+        <div class="book-info">
+            <h1>{{ book.title }}</h1>
+            <p><strong>Yazar:</strong> {{ book.author }}</p>
+            <p><strong>Yayın Tarihi:</strong> {{ book.published_date }}</p>
+            <p>{{ book.description }}</p>
+
+            <!-- Favorilere Ekle/Kaldır -->
+            <div class="action-links">
+                {% if user.is_authenticated %}
+                <form method="POST" action="{% url 'add-favorite' book.pk %}">
+                    {% csrf_token %}
+                    {% if book in user.profile.favorite_books.all %}
+                    <button type="submit">Favorilerden Kaldır</button>
+                    {% else %}
+                    <button type="submit">Favorilere Ekle</button>
+                    {% endif %}
+                </form>
+                {% else %}
+                <p>Favorilere eklemek için <a href="{% url 'login' %}">giriş yapın</a>.</p>
+                {% endif %}
+            </div>
+
+            <!-- Yorumlar -->
+            <div class="comments">
+                <h2>Yorumlar</h2>
+                {% for comment in comments %}
+                <p><strong>{{ comment.name }}:</strong> {{ comment.text }}</p>
+                {% empty %}
+                <p>Bu kitap için henüz yorum yok.</p>
+                {% endfor %}
+
+                <!-- Yorum Ekle -->
+                <h3>Yorum Ekle</h3>
+                <form method="POST" action="{% url 'book-detail' book.pk %}">
+                    {% csrf_token %}
+                    <input type="text" name="name" placeholder="Adınız" required>
+                    <textarea name="text" rows="3" placeholder="Yorumunuz" required></textarea>
+                    <button type="submit">Yorum Gönder</button>
+                </form>
+            </div>
+
+            <!-- Oylamalar -->
+            <div class="ratings">
+                <h2>Oylamalar</h2>
+                {% for rating in ratings %}
+                <p>Oy: {{ rating.score }} / 5</p>
+                {% empty %}
+                <p>Bu kitap için henüz oy yok.</p>
+                {% endfor %}
+
+                <!-- Oy Ver -->
+                <h3>Oy Ver</h3>
+                <form method="POST" action="{% url 'book-detail' book.pk %}">
+                    {% csrf_token %}
+                    <label for="score">Puan:</label>
+                    <select name="score" id="score" required>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <button type="submit">Oy Gönder</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

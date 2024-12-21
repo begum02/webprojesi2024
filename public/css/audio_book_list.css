@@ -1,0 +1,102 @@
+:root {
+    --primary-blue: #2a3b4d;
+    /* Soft Koyu Mavi */
+    --background-light: #f4f5f7;
+    /* Soft Açık Gri */
+    --text-color: #333333;
+    /* Koyu Gri */
+    --white: #ffffff;
+    /* Beyaz */
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    /* Hafif Gölge */
+}
+
+/* Genel Ayarlar */
+body {
+    background-color: var(--background-light);
+    font-family: Arial, sans-serif;
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+.header {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    text-align: center;
+    padding: 15px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+/* Kitap Konteyner */
+.book-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px auto;
+    padding: 20px;
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    max-width: 900px;
+}
+
+.book-details {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+/* Kitap Görseli */
+.book-details img {
+    width: 220px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    transition: transform 0.3s ease;
+}
+
+.book-details img:hover {
+    transform: scale(1.02);
+}
+
+/* İçerik */
+.book-content {
+    flex: 1;
+    text-align: left;
+}
+
+.book-content h1 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: var(--primary-blue);
+}
+
+.book-content h3 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: var(--text-color);
+    font-weight: normal;
+}
+
+.book-content p {
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+audio {
+    margin-top: 15px;
+    width: 100%;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    text-align: center;
+    padding: 10px;
+    font-size: 0.9rem;
+    margin-top: 20px;
+}

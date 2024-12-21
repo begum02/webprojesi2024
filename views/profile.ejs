@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Düzenle</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .profile-container {
+            width: 50%;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        .profile-container label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .profile-container input,
+        .profile-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .profile-container button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ff6b6b;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .profile-container button:hover {
+            background-color: #ff4f4f;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="profile-container">
+        <h2>Profili Düzenle</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="email">E-posta Adresi</label>
+            <input type="email" name="email" value="{{ user.email }}" required>
+
+            <label for="first_name">Ad</label>
+            <input type="text" name="first_name" value="{{ user.first_name }}" required>
+
+            <label for="last_name">Soyad</label>
+            <input type="text" name="last_name" value="{{ user.last_name }}" required>
+
+            <label for="bio">Hakkında</label>
+            <textarea name="bio" rows="4">{{ profile.bio }}</textarea>
+
+            <label for="profile_picture">Profil Fotoğrafı</label>
+            <input type="file" name="profile_picture">
+
+            <button type="submit">Profili Kaydet</button>
+        </form>
+    </div>
+</body>
+
+</html>
