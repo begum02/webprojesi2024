@@ -2,16 +2,24 @@ const express = require("express");
 const path = require("path");
 const mustacheExpress = require("mustache-express");
 const session = require("express-session");
-const { registerUser, loginUser,logoutUser } = require("./authController");
+const { registerUser, loginUser,logoutUser } = require("./controllers/authController");
 const cors = require("cors"); // CORS modülünü dahil ediyoruz
-const {getTopBooks}=require('./Lists')
-const{getCategories, getBooksByCategory }=require("./categories")
-const { fetchBooks } = require('./fetchEbooks');
-const { getAudiobookDetails } = require('./getAudiobookDetails');
-const{getAudiobooks}=require('./getAudiobooks')
-const{fetchAuthors}=require('./fetchAuthors')
+const {getTopBooks}=require('./controllers/Lists')
+const{getCategories, getBooksByCategory }=require("./controllers/categories")
+const { fetchBooks ,getEbookDetails} = require('./controllers/ebookController');
 
-const app = express();
+const{getAudiobooks}=require('./controllers/getAudiobooks')
+const{fetchAuthors}=require('./controllers/fetchAuthors')
+const { postEbookRating, getEbookRatings,getAudiobookRatings,postAudiobookRating } = require('./controllers/ratingController'); // Rating işlemleri
+const { getAudioBooks,getAudiobookDetails } = require('./controllers/audiobookController');
+const { 
+    getReadingHistory, 
+    addReadingHistory, 
+    getListeningHistory, 
+    addListeningHistory 
+} = require('./controllers/historyController');
+
+const  app  = express();
 app.use(cors({
   origin: 'http://localhost:3000', // Frontend URL'sini buraya ekleyin
   credentials: true, // Çerezlerin gönderilmesine izin verir
@@ -32,7 +40,7 @@ app.use(
   session({
     secret: "yourSecretKey",
     resave: false,
-    saveUninitialized: false, // Veri eklenmeden session kaydedilmesin
+    saveUninitialized: true, // Veri eklenmeden session kaydedilmesin
     cookie: { 
       secure: false, // Eğer HTTPS kullanmıyorsanız bunu false yapın
       maxAge: 1000 * 60 * 60 * 24, // Çerezin geçerlilik süresi (1 gün)
@@ -41,6 +49,7 @@ app.use(
   })
 );
 
+app.use(express.urlencoded({ extended: true })); // Form verilerini işlemek için
 
 // Giriş Sayfası
 app.get("/login", (req, res) => {
@@ -54,6 +63,7 @@ app.post("/login", async (req, res) => {
     const user = await loginUser(email, password); // authController'daki loginUser fonksiyonunu çağırıyoruz
     req.session.user = user; // Kullanıcıyı session'a ekliyoruz
     console.log(req.session.user); // Oturumdaki kullanıcıyı kontrol et
+    req.session.is_logged_in = true;  // Giriş durumu
     res.redirect("/home");
   } catch (error) {
     res.render("login", { title: "Giriş Yap", errorMessages: [error.message] });
@@ -118,19 +128,36 @@ app.post("/logout", (req, res) => {
 });
 
 
+const isLoggedIn = (req, res, next) => {
+  if (req.session && req.session.is_logged_in) {
+      return next();
+  } else {
+      return res.status(401).json({ error: 'Unauthorized' });
+  }
+};
+
+
+
 app.get('/categories', async (req, res) => {
   try {
     const categories = await getCategories();
     const categoryBooks = [];
 
-    // Her kategori için kitapları alalım
+    // Get categories and books
     for (let category of categories) {
       const books = await getBooksByCategory(category.id);
       categoryBooks.push({ category, books });
     }
 
-    // Dinamik olarak şablonu render et
-    res.render('categories', { categoryBooks });
+    // Add user session data
+    res.render('categories', { 
+      categoryBooks,
+      is_logged_in: req.session.is_logged_in || false,
+      user_first_initial: req.session.user ? req.session.user.username.charAt(0).toUpperCase() : '',
+      user: req.session.user || null,
+      isCategories: true
+    });
+
   } catch (err) {
     console.error(err);
     res.status(500).send('Internal Server Error');
@@ -144,9 +171,19 @@ app.get('/categories', async (req, res) => {
 // Kitapları getiren rota
 app.get('/ebooks', async (req, res) => {
   try {
-    const books = await fetchBooks(); // fetchBooks fonksiyonunu çağır
-    console.log(books); // Gönderilen veriyi konsola yazdırın
-    res.render('ebooks', { books }); // ebooks.mustache dosyasına veriyi gönder
+    const books = await fetchBooks();
+    const isLoggedIn = req.session.is_logged_in || false;
+    const userFirstInitial = req.session.user ? 
+      req.session.user.username.charAt(0).toUpperCase() : '';
+
+    res.render('ebooks', { 
+      books,
+      is_logged_in: isLoggedIn,
+      user_first_initial: userFirstInitial,
+      user: req.session.user || null,
+      isEbooks: true
+    });
+
   } catch (err) {
     console.error('Error fetching books:', err.message);
     res.status(500).send('An error occurred while fetching books');
@@ -156,20 +193,41 @@ app.get('/ebooks', async (req, res) => {
 
 
 app.get('/audio_book_detail/:id', async (req, res) => {
-  const audiobookId = parseInt(req.params.id); // URL parametresinden id'yi alıyoruz
+  const audiobookId = parseInt(req.params.id);
 
   try {
     const audiobookDetails = await getAudiobookDetails(audiobookId);
+    const ratingsData = await getAudiobookRatings({ 
+      params: { bookId: audiobookId }
+    }, { 
+      json: (data) => data 
+    });
+
+    // Add this to handle history tracking
+    if (req.session.user) {
+      await addListeningHistory({
+        body: {
+          user_id: req.session.user.id,
+          book_id: audiobookId
+        }
+      }, {
+        status: () => ({ json: () => {} })
+      });
+    }
 
     if (audiobookDetails) {
-      // Kitap bulunduysa render işlemi yapılır
-      res.render('audio_book_detail', { book: audiobookDetails });
+      res.render('audio_book_detail', { 
+        book: audiobookDetails,
+        ratings: ratingsData.ratings || [],
+        averageRating: ratingsData.averageRating || 0,
+        is_logged_in: req.session.is_logged_in || false,
+        user_first_initial: req.session?.user?.username?.charAt(0).toUpperCase() || '',
+        user: req.session.user || null
+      });
     } else {
-      // Kitap bulunamadıysa 404 hata döndürülür
       res.status(404).json({ error: 'Audiobook not found' });
     }
   } catch (error) {
-    // Hata durumunda 500 hata kodu döndürülür
     console.error('Error fetching audiobook details:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
@@ -183,19 +241,38 @@ app.get('/audio_book_list', async (req, res) => {
     const audiobooks = await getAudiobooks();
 
     if (audiobooks && audiobooks.length > 0) {
-      // Kitaplar bulunduysa render işlemi yapılır
-      res.render('audio_book_list', { books: audiobooks });
+      res.render('audio_book_list', { 
+        books: audiobooks,
+        is_logged_in: req.session.is_logged_in || false,
+        user_first_initial: req.session.user ? req.session.user.username.charAt(0).toUpperCase() : '',
+        user: req.session.user || null,
+        isAudioBooks: true
+      });
     } else {
-      // Kitap bulunamadıysa 404 hata döndürülür
-      res.status(404).json({ error: 'No audiobooks found' });
+      res.render('audio_book_list', { 
+        books: [],
+        is_logged_in: req.session.is_logged_in || false,
+        user_first_initial: req.session.user ? req.session.user.email.charAt(0).toUpperCase() : '',
+        user: req.session.user || null
+      });
     }
   } catch (error) {
-    // Hata durumunda 500 hata kodu döndürülür
-    console.error('Error fetching audiobooks:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
   }
 });
 
+app.get('/audiobooks', async (req, res) => {
+  try {
+      const audiobooks = await getAudioBooks();
+      res.render('audio_book_list', {
+          books: audiobooks
+      });
+  } catch (err) {
+      console.error('Error:', err);
+      res.status(500).json({ error: err.message });
+  }
+});
 
 app.get('/authors', async (req, res) => {
   try {
@@ -214,11 +291,147 @@ app.get('/authors', async (req, res) => {
   }
 });
 
+app.get('/ebook/:id', async (req, res) => {
+    const ebookId = req.params.id;
+    
+    try {
+        const ebookDetails = await getEbookDetails(ebookId);
+        const ratingsData = await getEbookRatings({ 
+            params: { bookId: ebookId } 
+        }, { 
+            json: (data) => data 
+        });
 
+        res.render('book_detail', {
+            id: ebookId,
+            title: ebookDetails.title,
+            author: ebookDetails.author,
+            published_date: ebookDetails.published_date,
+            cover_image: ebookDetails.cover_image,
+            description: ebookDetails.description,
+            ratings: ratingsData.ratings || [],
+            averageRating: ratingsData.averageRating || 0,
+            user: req.session.user,
+            isLoggedIn: req.session.is_logged_in || false
+        });
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: err.message });
+    }
+});
 
+// Rating işlemleri
+app.post('/api/ebook/ratings', isLoggedIn, postEbookRating);
+app.get('/api/ebook/ratings/:bookId', getEbookRatings);
+app.get('/api/audiobook/:id', getAudiobookRatings);
+app.post('/api/audiobook/ratings', isLoggedIn, postAudiobookRating);
 
+// Replace or update existing history routes
+app.get('/api/history', isLoggedIn, async (req, res) => {
+    try {
+        const userId = req.session.user.id;
+        
+        // Get both reading and listening history
+        const read_books = await getReadingHistory({ 
+            params: { user_id: userId }
+        });
+        
+        const listened_books = await getListeningHistory({ 
+            params: { user_id: userId }
+        });
+
+        res.json({
+            read_books: read_books || [],
+            listened_books: listened_books || []
+        });
+    } catch (error) {
+        console.error('Error fetching history:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// Update existing history routes
+app.get('/history', isLoggedIn, async (req, res) => {
+    try {
+        const userId = req.session.user.id;
+        
+        const read_books = await getReadingHistory(userId);
+        const listened_books = await getListeningHistory(userId);
+
+        res.render('history', {
+            is_logged_in: true,
+            user_first_initial: req.session.user.username.charAt(0).toUpperCase(),
+            user: req.session.user,
+            read_books: read_books || [],
+            listened_books: listened_books || [],
+            currentPage: 'history'
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).render('error', { 
+            message: 'Geçmiş yüklenirken bir hata oluştu.' 
+        });
+    }
+});
+
+// Add middleware for history routes
+app.post('/api/history/reading', isLoggedIn, addReadingHistory);
+app.post('/api/history/listening', isLoggedIn, addListeningHistory);
 
 // Sunucuyu başlatıyoruz
 app.listen(3000, () => {
   console.log("Server is running on http://localhost:3000");
+});
+
+app.get('/', (req, res) => {
+    res.render('home', {
+        is_logged_in: req.session.is_logged_in || false,
+        user_first_initial: req.session?.user?.username?.charAt(0).toUpperCase() || '',
+        currentPage: 'home'
+    });
+});
+
+app.get('/audio_book_list', async (req, res) => {
+    try {
+        const audiobooks = await getAudiobooks();
+        res.render('audio_book_list', {
+            books: audiobooks,
+            is_logged_in: req.session.is_logged_in || false,
+            user_first_initial: req.session?.user?.username?.charAt(0).toUpperCase() || '',
+            currentPage: 'audio_book_list'
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.get('/ebooks', async (req, res) => {
+    try {
+        const books = await fetchBooks();
+        res.render('ebooks', {
+            books,
+            is_logged_in: req.session.is_logged_in || false,
+            user_first_initial: req.session?.user?.username?.charAt(0).toUpperCase() || '',
+            currentPage: 'ebooks'
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.get('/categories', async (req, res) => {
+    try {
+        const categories = await getCategories();
+        res.render('categories', {
+            categories,
+            is_logged_in: req.session.is_logged_in || false,
+            user_first_initial: req.session?.user?.username?.charAt(0).toUpperCase() || '',
+            currentPage: 'categories'
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+    }
 });

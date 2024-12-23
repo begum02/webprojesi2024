@@ -1,4 +1,4 @@
-const supabase = require('./SupabaseClient'); // Supabase istemcisi
+const supabase = require('../SupabaseClient'); // Supabase istemcisi
 
 async function searchData(searchQuery) {
     if (!searchQuery || searchQuery.trim() === "") {

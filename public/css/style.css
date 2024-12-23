@@ -1,8 +1,19 @@
+:root {
+    --blue: #007bff;
+    --cyan: #17a2b8;
+    --white: #ffffff;
+    --gray: #6c757d;
+    --gray-dark: #343a40;
+    --black: #000000;
+    --bg-light: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+}
+
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #cdccb5;
+    background-color: var(--bg-light);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,20 +21,61 @@ body {
 }
 
 .login {
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.09);
     display: flex;
- flex-direction: column;
- gap: 20px;
+    flex-direction: column;
+    gap: 20px;
+    width: 320px;
 }
 
+.login input {
+    padding: 12px;
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
 
+.login input:focus {
+    outline: none;
+    border-color: var(--blue);
+}
 
+.login button {
+    padding: 12px;
+    background-color: var(--black);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.login button:hover {
+    opacity: 0.9;
+}
+
+.login a {
+    color: var(--blue);
+    text-decoration: none;
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+.login a:hover {
+    color: var(--cyan);
+}
 
 .login-container {
-    background-color: #fff;
+    background-color: var(--white);
     width: 400px;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   
     text-align: center;
 }
 

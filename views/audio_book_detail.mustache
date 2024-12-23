@@ -18,7 +18,18 @@
     <!-- Kitap Detayları -->
     <div class="book-container">
         <div class="book-details">
+         <div class="book-image-rating">
             <img src="{{book.cover_image}}" alt="{{book.title}}">
+            <div class="audiobookrating" data-book-id="{{book.id}}" data-user-id="{{user.id}}">
+                <span class="star" data-value="1">&#9733;</span>
+                <span class="star" data-value="2">&#9733;</span>
+                <span class="star" data-value="3">&#9733;</span>
+                <span class="star" data-value="4">&#9733;</span>
+                <span class="star" data-value="5">&#9733;</span>
+                <p>Ortalama Puan: <span id="audiobook-average-rating">{{averageRating}}</span></p>
+            </div>
+        </div>
+
             <div class="book-content">
                 <h1>{{book.title}}</h1>
                 <h3>Yazar: {{book.author}}</h3>
@@ -36,6 +47,8 @@
     <div class="footer">
         Tüm hakları saklıdır. | Kitap Platformu
     </div>
+    <script src="/js/rating.js"></script>
+    <script src="/js/audio_book_detail.js"></script>
 </body>
 
 </html>

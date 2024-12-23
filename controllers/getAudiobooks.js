@@ -2,7 +2,7 @@
 
 
 // getAudiobooks.js
-const supabase = require('./SupabaseClient'); // Supabase istemcisi
+const supabase = require('../SupabaseClient'); // Supabase istemcisi
 
 // Tüm audiobooks'leri almak için fonksiyon
 const getAudiobooks = async () => {

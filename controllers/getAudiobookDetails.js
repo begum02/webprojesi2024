@@ -1,4 +1,4 @@
-const supabase = require('./SupabaseClient');
+const supabase = require('../SupabaseClient');
 
 // Audiobook detaylarını almak için fonksiyon
 const getAudiobookDetails = async (audiobookId) => {

@@ -1,4 +1,4 @@
-const supabase = require('./SupabaseClient'); // Supabase istemcisi
+const supabase = require('../SupabaseClient'); // Supabase istemcisi
 const bcrypt = require('bcryptjs');
 
 // Şifreyi hash'leme fonksiyonu

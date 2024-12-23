@@ -1,14 +1,12 @@
 :root {
-    --primary-blue: #2a3b4d;
-    /* Soft Koyu Mavi */
-    --background-light: #f4f5f7;
-    /* Soft Açık Gri */
+    --primary-blue: #000000;
+    --background-light: #ffffff;
     --text-color: #333333;
-    /* Koyu Gri */
     --white: #ffffff;
-    /* Beyaz */
+    --black: #000000;
+    --cyan: #00b8d4;
+    --blue: #0091ea;
     --shadow-color: rgba(0, 0, 0, 0.1);
-    /* Hafif Gölge */
 }
 
 /* Genel Ayarlar */
@@ -34,25 +32,64 @@ body {
 /* Kitap Konteyner */
 .book-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 30px auto;
+    gap: 20px;
+    align-items:center;
+    margin: 50px auto;
     padding: 20px;
     background: var(--white);
     border-radius: 8px;
     box-shadow: 0 4px 8px var(--shadow-color);
-    max-width: 900px;
+    height: 15vw;
+    max-width: 80vw;
+    width: 100%;
+    overflow: hidden;
 }
 
 .book-details {
     display: flex;
-    gap: 20px;
-    align-items: center;
+    flex-direction: column;
+    gap: 10px;  /* Reduced gap between elements */
+
+    overflow: hidden;
 }
 
-/* Kitap Görseli */
+.book-details h2 {
+    font-size: 1.2rem;
+    margin: 0 0 2px 0;  /* Reduced margin */
+    color: var(--text-color);
+}
+
+.book-details h3 {
+    font-size: 1 rem;
+    margin: 0 0 2px 0;  /* Reduced margin */
+    color: var(--text-color);
+}
+
+.book-details p {
+    margin: 0 0 2px 0;  /* Reduced margin */
+    line-height: 1.2;  /* Reduced line height */
+    font-size: 0.9rem;
+}
+
+.book-details strong {
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+/* Kitap Görseli - moved outside book-details */
+.book-container img {
+    width: 120px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    transition: transform 0.3s ease;
+}
+
 .book-details img {
-    width: 220px;
+    max-width: 120px;
+    max-height: 130px;
+    object-fit: contain;
     border-radius: 8px;
     box-shadow: 0 2px 4px var(--shadow-color);
     transition: transform 0.3s ease;
@@ -69,26 +106,21 @@ body {
 }
 
 .book-content h1 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
+    font-size: 1.5rem;
+    margin-bottom: 5px;  /* Reduced margin */
     color: var(--primary-blue);
 }
 
 .book-content h3 {
     font-size: 1rem;
-    margin-bottom: 10px;
+    margin-bottom: 3px;  /* Reduced margin */
     color: var(--text-color);
     font-weight: normal;
 }
 
 .book-content p {
-    line-height: 1.5;
-    margin-bottom: 10px;
-}
-
-audio {
-    margin-top: 15px;
-    width: 100%;
+    line-height: 1.3;  /* Reduced line height */
+    margin-bottom: 3px;  /* Reduced margin */
 }
 
 /* Footer */
@@ -99,4 +131,192 @@ audio {
     padding: 10px;
     font-size: 0.9rem;
     margin-top: 20px;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: var(--primary-blue);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--white);
+}
+
+.navbar .nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.navbar .nav-links a {
+    text-decoration: none;
+    color: var(--white);
+    padding: 8px 0;
+    position: relative;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.navbar .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--white);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+/* Only highlight current page */
+.navbar .nav-links a[href="/audio_book_list"] {
+    opacity: 1;
+}
+
+.navbar .nav-links a[href="/audio_book_list"]::after {
+    transform: scaleX(1);
+}
+
+/* Hover effect for non-active links */
+.navbar .nav-links a:not([href="/audio_book_list"]):hover {
+    opacity: 1;
+}
+
+.navbar .nav-links a:not([href="/audio_book_list"]):hover::after {
+    transform: scaleX(0.8);
+}
+
+/* Hover effect */
+.navbar .nav-links a:hover {
+    opacity: 1;
+}
+
+.navbar .nav-links a[href="/audio_book_list"].active::after{
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--white);
+    transform: scaleX(1);
+    transition: transform 0.3s ease;
+}
+
+/* Show active page */
+.navbar .nav-links a.active {
+    opacity: 1;
+}
+
+.navbar .nav-links a.active::after {
+    transform: scaleX(1);
+}
+
+.navbar .auth-buttons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.auth-buttons .login-btn {
+    color: var(--white);
+    text-decoration: none;
+    padding: 8px 20px;
+    border: 2px solid var(--white);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.auth-buttons .subscribe-btn {
+    color: var(--primary-blue);
+    background: var(--white);
+    text-decoration: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+    background: var(--white);
+    color: var(--primary-blue);
+}
+
+.subscribe-btn:hover {
+    opacity: 0.9;
+}
+
+ 
+.navbar .auth-buttons .user-initials {
+    background-color: #3BFAAF;
+    color: #fff;
+    display: inline-block;
+    padding: 10px;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    font: bold 15px sans-serif;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer; /* Kullanıcı avatarına tıklanabilirlik verir */
+}
+
+ /* Başlangıçta dropdown menüsü gizli */
+.dropdown-content {
+display: none;
+position: absolute; /* Menü içeriklerinin dropdown butonunun altında olmasını sağlar */
+background-color: #ffffff;
+min-width: 160px;
+box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+z-index: 1;
+top: 120%; /* Menü, user-initials'ın hemen altında başlar */
+right:20px; /* Sol tarafta hizalama */
+
+
+}
+
+/* Menü görünür olduğunda */
+.dropdown-content.show {
+display: block;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    padding: 8px 0;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--white);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.nav-links a[href='/' + currentPage] {
+    border-bottom: 2px solid var(--white);
+}
+
+.nav-links a:hover::after {
+    transform: scaleX(1);
 }

@@ -1,4 +1,4 @@
-    /* Renk Paleti */
+/* Renk Paleti */
     :root {
         --blue: #007bff;
         --cyan: #17a2b8;
@@ -12,8 +12,8 @@
     /* Genel Ayarlar */
     body {
         margin: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: var(--bg-light);
+        font-family: Arial, sans-serif;
+        background-color: var(rgb(255, 255, 255));
         color: var(--gray-dark);
     }
 
@@ -23,67 +23,94 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px 20px;
-        color: var(--white);
-        position: sticky;
-        top: 0;
-        z-index: 1000;
+        padding: 15px 30px;
+        box-shadow: 0 2px 4px var(--shadow-color);
     }
-
+    
     .navbar .logo {
-        font-size: 1.5rem;
+        font-size: 24px;
         font-weight: bold;
         text-decoration: none;
         color: var(--white);
     }
-
+    
     .navbar .nav-links {
         display: flex;
-        gap: 20px;
+        gap: 30px;
     }
-
+    
     .navbar .nav-links a {
         text-decoration: none;
         color: var(--white);
-        font-size: 1rem;
-        transition: color 0.3s ease;
+        padding: 8px 0px;
+        border-bottom: 2px solid transparent; /* Add transparent border initially */
+        transition: all 0.3s ease;
+        position: relative; /* For absolute positioning of pseudo-element */
     }
-
+    
+    .navbar .nav-links a.active {
+        border-bottom: 2px solid var(--white);
+        font-weight: bold;
+        opacity: 1;
+    }
+    
     .navbar .nav-links a:hover {
-        color: var(--cyan);
+        border-bottom: 2px solid var(--white);
+        opacity: 0.8;
     }
-
+    
+    /* Add specific highlight for current page */
+    .navbar .nav-links a[aria-current="page"] {
+        border-bottom: 2px solid var(--white);
+        font-weight: bold;
+    }
+    
     .navbar .auth-buttons {
         display: flex;
         gap: 15px;
+        align-items: center;
     }
-
-    .navbar .auth-buttons a {
+    
+    .auth-buttons .login-btn {
+        color: var(--white);
         text-decoration: none;
-        font-size: 0.9rem;
-        padding: 8px 15px;
+        padding: 8px 20px;
+        border: 2px solid var(--white);
         border-radius: 20px;
-        transition: background 0.3s ease, color 0.3s ease;
+        transition: all 0.3s ease;
     }
-
-    .navbar .auth-buttons .subscribe-btn {
-        background-color: var(--cyan);
-        color: var(--white);
+    
+    .auth-buttons .subscribe-btn {
+        color: var(--primary-blue);
+        background: var(--white);
+        text-decoration: none;
+        padding: 8px 20px;
+        border-radius: 20px;
         font-weight: bold;
+        transition: all 0.3s ease;
     }
-
-    .navbar .auth-buttons .subscribe-btn:hover {
-        background-color: var(--blue);
+    
+    .login-btn:hover {
+        background: var(--white);
+        color: var(--primary-blue);
     }
-
-    .navbar .auth-buttons .login-btn {
-        color: var(--white);
-        border: 1px solid var(--white);
+    
+    .subscribe-btn:hover {
+        opacity: 0.9;
     }
-
-    .navbar .auth-buttons .login-btn:hover {
-        background-color: var(--cyan);
-        border-color: var(--cyan);
+    
+    .navbar .auth-buttons .user-initials {
+        background-color: #3BFAAF;
+        color: #fff;
+        display: inline-block;
+        padding: 10px;
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+        font: bold 15px sans-serif;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer; /* Kullanıcı avatarına tıklanabilirlik verir */
     }
 
     /* Header */
@@ -166,7 +193,7 @@
         text-align: center;
         margin: 40px 0 20px;
         font-size: 2rem;
-        color: var(--blue);
+        color: var(--black);
     }
 
     .book-row {
@@ -190,6 +217,8 @@
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         text-align: center;
         scroll-snap-align: start;
+        position: relative;
+        text-align: center;
     }
 
     .book-card img {
@@ -207,9 +236,12 @@
     }
 
     .book-card a {
+        position: absolute;
         text-decoration: none;
-        color: var(--cyan);
+        color: var(--black);
         font-weight: bold;
+        bottom: 10px;
+   
     }
 
     .siteImage{
@@ -250,4 +282,48 @@
   .dropdown-content.show {
     display: block;
   }
-  
+
+.user-initials {
+    background-color: #3BFAAF;
+    color: #fff;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 45px;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    z-index: 1000;
+}
+
+.dropdown-content.show {
+    display: block;
+}
+
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}

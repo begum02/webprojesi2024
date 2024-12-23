@@ -1,22 +1,17 @@
 :root {
-    --primary-blue: #2a3b4d;
-    /* Koyu Soft Mavi */
-    --secondary-blue: #415a77;
-    /* Daha Açık Soft Mavi */
-    --accent-blue: #6b94b7;
-    /* Vurgulu Açık Mavi */
-    --text-color: #dfe4ea;
-    /* Açık Gri-Beyaz */
-    --background-light: #1a2b4c;
-    /* Arka Plan */
+    --blue: #007bff;
+    --cyan: #17a2b8;
     --white: #ffffff;
-    /* Beyaz */
-    --card-shadow: rgba(0, 0, 0, 0.1);
+    --gray: #6c757d;
+    --gray-dark: #343a40;
+    --black: #000000;
+    --bg-light: #f4f8fb;
+    --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
 body {
-    background-color: var(--background-light);
-    color: var(--text-color);
+    background-color: var(--bg-light);
+    color: var(--gray-dark);
     margin: 0;
     font-family: Arial, sans-serif;
 }
@@ -36,55 +31,60 @@ body {
 .book-container {
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin: 30px auto;
-    padding: 20px;
-    max-width: 1000px;
-    background: var(--secondary-blue);
+    align-items: flex-start;
+    margin: 50px auto;
+    padding: 30px;
+    max-width: 800px;
+    background: var(--white);
     border-radius: 10px;
-    box-shadow: 0 4px 8px var(--card-shadow);
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.09);
 }
 
 .book-details {
     display: flex;
     flex-direction: row;
-    gap: 20px;
-    align-items: center;
+    gap: 30px;
+    align-items: flex-start;
 }
 
 .book-details img {
     width: 250px;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px var(--card-shadow);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    transition: transform 0.3s ease;
+}
+
+.book-details img:hover {
+    transform: scale(1.02);
 }
 
 .book-content {
     flex: 1;
-    text-align: left;
-    color: var(--white);
+    color: var(--gray-dark);
 }
 
 .book-content h1 {
     font-size: 2rem;
-    margin-bottom: 10px;
-    color: var(--accent-blue);
+    margin-bottom: 15px;
+    color: var(--black);
 }
 
 .book-content h3 {
     font-size: 1.2rem;
     margin-bottom: 10px;
-    color: var(--text-color);
+    color: var(--gray);
 }
 
 .book-content p {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     line-height: 1.6;
+    color: var(--gray);
 }
 
 audio {
     width: 100%;
-    margin-top: 15px;
+    margin-top: 20px;
+    border-radius: 20px;
 }
 
 /* Footer */
@@ -98,7 +98,19 @@ audio {
 }
 
 /* Hover Efekt */
-.book-details img:hover {
-    transform: scale(1.03);
-    transition: all 0.3s ease;
+.rating {
+    margin: 20px 0;
+    display: flex;
+    gap: 5px;
+}
+
+.star {
+    font-size: 24px;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.star.selected {
+    color: var(--cyan);
 }

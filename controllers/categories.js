@@ -1,5 +1,5 @@
 // supabaseClient.js
-const supabase = require('./SupabaseClient'); // Supabase istemcisi
+const supabase = require('../SupabaseClient'); // Supabase istemcisi
 
 
 

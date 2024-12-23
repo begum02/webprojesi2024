@@ -11,8 +11,34 @@
 </head>
 
 <body>
-    <h1>Kategoriler</h1>
+  <nav class="navbar">
+        <a href="#" class="logo">Soundsea</a>
+        <div class="nav-links">
+            <a href="/audio_book_list">Sesli Kitaplar</a>
+            <a href="/ebooks">E-Kitaplar</a>
+            <a href="/categories">Kategoriler</a>
+        </div>
+ <div class="auth-buttons">
+            {{#is_logged_in}}
+            <div class="user-initials">
+                {{user_first_initial}}
+            </div>
+  <div class="dropdown">
+      <div class="dropdown-content">
+        <a href="#" id="logoutButton">Çıkış Yap</a>
+      </div>
+</div>
 
+            {{/is_logged_in}}
+
+            {{^is_logged_in}}
+            <a href="/login" class="login-btn">Giriş Yap</a>
+            <a href="/register" class="subscribe-btn">Hemen Üye Ol</a>
+            {{/is_logged_in}}
+        </div>
+    </nav>
+
+  
     <div class="categories-container">
         {{#categoryBooks}}
         <!-- Kategori için her bir bölümü dinamik olarak oluşturuyoruz -->

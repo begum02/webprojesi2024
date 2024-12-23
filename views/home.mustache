@@ -13,11 +13,11 @@
   <script src="/js/home.js"></script>
     <!-- Navbar -->
     <nav class="navbar">
-        <a href="#" class="logo">Soundsea</a>
+        <a href="/" class="logo">Soundsea</a>
         <div class="nav-links">
-            <a href="/audio-books">Sesli Kitaplar</a>
-            <a href="/ebooks">E-Kitaplar</a>
-            <a href="/categories">Kategoriler</a>
+            <a href="/audio_book_list" {{#isAudioBooks}}class="active"{{/isAudioBooks}}>Sesli Kitaplar</a>
+            <a href="/ebooks" {{#isEbooks}}class="active"{{/isEbooks}}>E-Kitaplar</a>
+            <a href="/categories" {{#isCategories}}class="active"{{/isCategories}}>Kategoriler</a>
         </div>
  <div class="auth-buttons">
             {{#is_logged_in}}

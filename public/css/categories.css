@@ -1,8 +1,23 @@
+:root {
+    --primary-blue: #000000;
+    --background-light: #ffffff;
+    --text-color: #333333;
+    --white: #ffffff;
+    --black: #000000;
+    --cyan: #00b8d4;
+    --blue: #0091ea;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #cdccb5;
+    background-color: var(--background-light);
     /* Açık Bej Arka Plan */
     color: #3b341a;
     /* Koyu Kahverengi */
@@ -66,4 +81,133 @@ h1 {
 .book-item img {
     max-width: 100%;
     border-radius: 5px;
+}
+
+
+/* Navbar */
+.navbar {
+    background-color: var(--primary-blue);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--white);
+}
+
+.navbar .nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.navbar .nav-links a {
+    text-decoration: none;
+    color: var(--white);
+    padding: 8px 0;
+    position: relative;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.navbar .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--white);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+/* Only highlight categories page */
+.navbar .nav-links a[href="/categories"] {
+    opacity: 1;
+}
+
+.navbar .nav-links a[href="/categories"]::after {
+    transform: scaleX(1);
+}
+
+/* Hover effect for non-active links */
+.navbar .nav-links a:not([href="/categories"]):hover {
+    opacity: 1;
+}
+
+.navbar .nav-links a:not([href="/categories"]):hover::after {
+    transform: scaleX(0.8);
+}
+
+.navbar .auth-buttons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.auth-buttons .login-btn {
+    color: var(--white);
+    text-decoration: none;
+    padding: 8px 20px;
+    border: 2px solid var(--white);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.auth-buttons .subscribe-btn {
+    color: var(--primary-blue);
+    background: var(--white);
+    text-decoration: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+    background: var(--white);
+    color: var(--primary-blue);
+}
+
+.subscribe-btn:hover {
+    opacity: 0.9;
+}
+
+.navbar .auth-buttons .user-initials {
+    background-color: #3BFAAF;
+    color: #fff;
+    display: inline-block;
+    padding: 10px;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    font: bold 15px sans-serif;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer; /* Kullanıcı avatarına tıklanabilirlik verir */
+}
+
+ /* Başlangıçta dropdown menüsü gizli */
+.dropdown-content {
+display: none;
+position: absolute; /* Menü içeriklerinin dropdown butonunun altında olmasını sağlar */
+background-color: #ffffff;
+min-width: 160px;
+box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+z-index: 1;
+top: 120%; /* Menü, user-initials'ın hemen altında başlar */
+right:20px; /* Sol tarafta hizalama */
+
+
+}
+
+/* Menü görünür olduğunda */
+.dropdown-content.show {
+display: block;
 }

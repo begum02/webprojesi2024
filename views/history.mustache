@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geçmiş - Soundsea</title>
+    <link rel="stylesheet" href="/css/history.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/" class="logo">Soundsea</a>
+        <div class="nav-links">
+            <a href="/audio_book_list">Sesli Kitaplar</a>
+            <a href="/ebooks">E-Kitaplar</a>
+            <a href="/categories">Kategoriler</a>
+        </div>
+        <div class="auth-buttons">
+            {{#is_logged_in}}
+            <div class="dropdown">
+                <div class="user-initials">{{user_first_initial}}</div>
+                <div class="dropdown-content">
+                    <a href="#" id="logoutButton">Çıkış Yap</a>
+                </div>
+            </div>
+            {{/is_logged_in}}
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Geçmiş</h1>
+        
+        <div class="tabs">
+            <button class="tab-button active" data-tab="listened">Son Dinleneler</button>
+            <button class="tab-button" data-tab="read">Son Okunanlar</button>
+        </div>
+
+        <div id="listened" class="tab-content active">
+            {{#listened_books}}
+            <div class="book-card">
+                <img src="{{cover_image}}" alt="{{title}}">
+                <div class="book-info">
+                    <h3>{{title}}</h3>
+                    <p class="author">{{author}}</p>
+                    <p class="date">{{created_at}}</p>
+                </div>
+            </div>
+            {{/listened_books}}
+            {{^listened_books}}
+            <p class="no-books">Henüz dinlenen kitap bulunmuyor.</p>
+            {{/listened_books}}
+        </div>
+
+        <div id="read" class="tab-content">
+            {{#read_books}}
+            <div class="book-card">
+                <img src="{{cover_image}}" alt="{{title}}">
+                <div class="book-info">
+                    <h3>{{title}}</h3>
+                    <p class="author">{{author}}</p>
+                    <p class="date">{{created_at}}</p>
+                </div>
+            </div>
+            {{/read_books}}
+            {{^read_books}}
+            <p class="no-books">Henüz okunan kitap bulunmuyor.</p>
+            {{/read_books}}
+        </div>
+    </div>
+
+  
+
+    <script src="/js/history.js"></script>
+</body>
+</html>

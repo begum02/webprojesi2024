@@ -1,43 +1,57 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ book.title }}</title>
+    <title>Sesli Kitaplar</title>
     <link rel="stylesheet" href="/css/audio_book_list.css">
     
 </head>
 
 <body>
-    <!-- Sayfa Başlığı -->
-    <div class="header">
-        Sesli Kitap: {{ book.title }}
-    </div>
-   <!-- kitap detayları -->
-       <div class="book-list">
+    <!-- Navigation -->
+   <nav class="navbar">
+        <a href="#" class="logo">Soundsea</a>
+        <div class="nav-links">
+            <a href="/audio_book_list" class="{{#currentPage}}active{{/currentPage}}">Sesli Kitaplar</a>
+            <a href="/ebooks">E-Kitaplar</a>
+            <a href="/categories">Kategoriler</a>
+        </div>
+        <div class="auth-buttons">
+            {{#is_logged_in}}
+            <div class="user-dropdown">
+                <div class="user-initials">{{user_first_initial}}</div>
+                <div class="dropdown-content">
+                    <a href="#" id="logoutButton">Çıkış Yap</a>
+                </div>
+            </div>
+            {{/is_logged_in}}
+            {{^is_logged_in}}
+            <a href="/login" class="login-btn">Giriş Yap</a>
+            <a href="/register" class="subscribe-btn">Hemen Üye Ol</a>
+            {{/is_logged_in}}
+        </div>
+    </nav>
+
+    <!-- Audio Books List -->
+    <div class="book-list">
         {{#books}}
-        <div class="book-item">
+        <div class="book-container">
             <img src="{{ cover_image }}" alt="{{ title }}">
             <div class="book-details">
                 <h2>{{ title }}</h2>
-                <h3>Yazar: {{ author }}</h3>
+                <h3>Yazar: {{ author}}</h3>
                 <p><strong>Kategori:</strong> {{ category }}</p>
-                <p>{{ description }}</p>
+                <p><strong>Tanım:</strong>{{ description }}</p>
                 <p><strong>Süre:</strong> {{ duration }} dakika</p>
-                <audio controls>
-                    <source src="{{ audio_file }}" type="audio/mpeg">
-                    Tarayıcınız bu sesi oynatmayı desteklemiyor.
-                </audio>
+               
             </div>
         </div>
         {{/books}}
     </div>
-    <!-- Footer -->
-    <div class="footer">
-        Tüm hakları saklıdır. | Kitap Platformu
-    </div>
+
+    <script src="/js/home.js"></script>
 </body>
 
 </html>
