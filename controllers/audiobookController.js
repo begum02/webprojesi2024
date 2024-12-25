@@ -1,5 +1,3 @@
-
-
 const supabase = require('../SupabaseClient'); // Supabase istemcisi
 
 
@@ -67,11 +65,69 @@ const getAudioBooks = async () => {
     }
   };
   
+  const getFavoriteAudiobooks = async () => {
+    try {
+        const { data, error } = await supabase
+            .from('audio_book')
+            .select(`
+                id,
+                title,
+                cover_image,
+                author:author_id (name),
+                isFavorite
+            `)
+            .eq('isFavorite', true);
+
+        if (error) {
+            console.error('Error fetching favorite audiobooks:', error);
+            throw error;
+        }
+
+        return data.map(book => ({
+            id: book.id,
+            title: book.title,
+            author: book.author?.name || 'Unknown Author',
+            cover_image: book.cover_image
+        }));
+    } catch (err) {
+        console.error('Error in getFavoriteAudiobooks:', err);
+        return [];
+    }
+};
+
+const toggleAudiobookFavorite = async (bookId) => {
+    try {
+        const { data, error } = await supabase
+            .from('audio_book')
+            .select('isFavorite')
+            .eq('id', bookId)
+            .single();
+
+        if (error) throw error;
+
+        const newFavoriteStatus = !data.isFavorite;
+
+        const { data: updatedData, error: updateError } = await supabase
+            .from('audio_book')
+            .update({ isFavorite: newFavoriteStatus })
+            .eq('id', bookId)
+            .single();
+
+        if (updateError) throw updateError;
+
+        return { isFavorite: newFavoriteStatus };
+    } catch (err) {
+        console.error('Error in toggleAudiobookFavorite:', err);
+        throw err;
+    }
+};
+
   getAudiobookDetails(1)
   
   
   module.exports = {
-    getAudiobookDetails,getAudioBooks
+    getAudiobookDetails,
+    getAudioBooks,
+    getFavoriteAudiobooks,
+    toggleAudiobookFavorite
   };
-  
-  

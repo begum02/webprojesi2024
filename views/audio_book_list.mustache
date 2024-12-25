@@ -5,53 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sesli Kitaplar</title>
+    <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/audio_book_list.css">
     
 </head>
 
 <body>
     <!-- Navigation -->
-   <nav class="navbar">
-        <a href="#" class="logo">Soundsea</a>
-        <div class="nav-links">
-            <a href="/audio_book_list" class="{{#currentPage}}active{{/currentPage}}">Sesli Kitaplar</a>
-            <a href="/ebooks">E-Kitaplar</a>
-            <a href="/categories">Kategoriler</a>
-        </div>
-        <div class="auth-buttons">
-            {{#is_logged_in}}
-            <div class="user-dropdown">
-                <div class="user-initials">{{user_first_initial}}</div>
-                <div class="dropdown-content">
-                    <a href="#" id="logoutButton">Çıkış Yap</a>
-                </div>
-            </div>
-            {{/is_logged_in}}
-            {{^is_logged_in}}
-            <a href="/login" class="login-btn">Giriş Yap</a>
-            <a href="/register" class="subscribe-btn">Hemen Üye Ol</a>
-            {{/is_logged_in}}
-        </div>
-    </nav>
+       {{> navbar}}
 
     <!-- Audio Books List -->
-    <div class="book-list">
+    <div class="audiobook-grid">
         {{#books}}
-        <div class="book-container">
-            <img src="{{ cover_image }}" alt="{{ title }}">
-            <div class="book-details">
-                <h2>{{ title }}</h2>
-                <h3>Yazar: {{ author}}</h3>
-                <p><strong>Kategori:</strong> {{ category }}</p>
-                <p><strong>Tanım:</strong>{{ description }}</p>
-                <p><strong>Süre:</strong> {{ duration }} dakika</p>
-               
+        <div class="audiobook-item" data-id="{{id}}">
+            <div class="audiobook-content">
+                <img src="{{cover_image}}" alt="{{title}}">
+                <h3>{{title}}</h3>
+                <p>Yazar: {{author}}</p>
             </div>
+            <a href="/audio_book_detail/{{id}}" class="audiobook-btn">Detayları Gör</a>
         </div>
+        {{/books}}
+        {{^books}}
+        <p>Henüz sesli kitap eklenmedi.</p>
         {{/books}}
     </div>
 
-    <script src="/js/home.js"></script>
+    <script src="/js/audio_books.js"></script>
+    <script src="/js/navbar.js"></script>
 </body>
 
 </html>

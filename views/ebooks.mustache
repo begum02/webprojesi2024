@@ -1,60 +1,34 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 
 <head>
     <meta charset="UTF-8">
     <title>E-Kitaplar</title>
- <link rel="stylesheet" href="/css/ebook.css">
-  
+    <link rel="stylesheet" href="/css/ebook.css">
+    <link rel="stylesheet" href="/css/home.css">
 </head>
 
 <body>
-  
- <!-- Navbar -->
-    <nav class="navbar">
-        <a href="#" class="logo">Soundsea</a>
-        <div class="nav-links">
-            <a href="/audio_book_list">Sesli Kitaplar</a>
-            <a href="/ebooks">E-Kitaplar</a>
-            <a href="/categories">Kategoriler</a>
-        </div>
- <div class="auth-buttons">
-            {{#is_logged_in}}
-            <div class="user-initials">
-                {{user_first_initial}}
+    {{> navbar}}
+
+    <div class="ebook-grid">
+        {{#books}}
+        <div class="ebook-item" data-id="{{id}}">
+            <div class="ebook-content">
+                <img src="{{cover_image}}" alt="{{title}}">
+                <h3>{{title}}</h3>
+                <p>Yazar: {{author.name}}</p>
             </div>
-  <div class="dropdown">
-      <div class="dropdown-content">
-        <a href="#" id="logoutButton">Çıkış Yap</a>
-      </div>
-</div>
-
-            {{/is_logged_in}}
-
-            {{^is_logged_in}}
-            <a href="/login" class="login-btn">Giriş Yap</a>
-            <a href="/register" class="subscribe-btn">Hemen Üye Ol</a>
-            {{/is_logged_in}}
+            <a href="/ebook/{{id}}" class="ebook-btn">Detayları Gör</a>
         </div>
-    </nav>
+        {{/books}}
+        {{^books}}
+        <p>Henüz e-kitap eklenmedi.</p>
+        {{/books}}
+    </div>
 
-
-
-   <div class="book-container">
-  {{#books}}
-  <div class="book-card">
-   <img src="{{cover_image}}" alt="{{title}}">
-    <h3>{{title}}</h3>
-    <p>Yazar: {{author.name}}</p>
-    <a href="/books/{{id}}">Detayları Gör</a>
-  </div>
-  {{/books}}
-  {{^books}}
-  <p>Henüz e-kitap eklenmedi.</p>
-  {{/books}}
-</div>
-
+    <script src="/js/ebooks.js"></script>
+      <script src="/js/navbar.js"></script>
 </body>
 
 </html>

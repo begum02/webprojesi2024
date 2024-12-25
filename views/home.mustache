@@ -14,24 +14,24 @@
     <!-- Navbar -->
     <nav class="navbar">
         <a href="/" class="logo">Soundsea</a>
-        <div class="nav-links">
+        <div class="main-nav">
             <a href="/audio_book_list" {{#isAudioBooks}}class="active"{{/isAudioBooks}}>Sesli Kitaplar</a>
             <a href="/ebooks" {{#isEbooks}}class="active"{{/isEbooks}}>E-Kitaplar</a>
             <a href="/categories" {{#isCategories}}class="active"{{/isCategories}}>Kategoriler</a>
         </div>
- <div class="auth-buttons">
+        <div class="right-section">
             {{#is_logged_in}}
-            <div class="user-initials">
-                {{user_first_initial}}
+            <div class="utility-links">
+                <a href="/history">Geçmiş</a>
+                <a href="/favorites">Favoriler</a>
             </div>
-  <div class="dropdown">
-      <div class="dropdown-content">
-        <a href="#" id="logoutButton">Çıkış Yap</a>
-      </div>
-</div>
-
+            <div class="dropdown">
+                <div class="user-initials">{{user_first_initial}}</div>
+                <div class="dropdown-content">
+                    <a href="#" id="logoutButton">Çıkış Yap</a>
+                </div>
+            </div>
             {{/is_logged_in}}
-
             {{^is_logged_in}}
             <a href="/login" class="login-btn">Giriş Yap</a>
             <a href="/register" class="subscribe-btn">Hemen Üye Ol</a>
@@ -52,7 +52,8 @@
 
     <!-- Popüler Kitaplar -->
      <h2 class="section-title">Popüler Kitaplar</h2>
- <div class="book-row">
+     <i class="fa-solid fa-angle-left" style="color: #000000;"></i>
+<div class="book-row">
     {{#popular_books}}
     <div class="book-card">
         <img src="{{cover_image}}" alt="{{title}}">
@@ -64,9 +65,35 @@
 </div>
 
 
-
-
+     <h2 class="section-title">Senin Gibi Dinleyenler</h2>
+<div class="book-row">
+    {{#popular_books}}
+    <div class="book-card">
+        <img src="{{cover_image}}" alt="{{title}}">
+        <h3>{{title}}</h3>
+        <p>{{author_name}}</p>
+        <a href="/book-detail/{{book_id}}">Detayları Gör</a>
     </div>
+    {{/popular_books}}
+</div>
+    </div>
+
+
+     <h2 class="section-title">Sana Özel Listeler</h2>
+<div class="book-row">
+    {{#popular_books}}
+    <div class="book-card">
+        <img src="{{cover_image}}" alt="{{title}}">
+        <h3>{{title}}</h3>
+        <p>{{author_name}}</p>
+        <a href="/book-detail/{{book_id}}">Detayları Gör</a>
+    </div>
+    {{/popular_books}}
+</div>
+    </div>
+
+
+
 </body>
 
 </html>

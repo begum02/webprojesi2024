@@ -1,0 +1,27 @@
+<nav class="navbar">
+    <a href="/" class="logo">Soundsea</a>
+    <div class="main-nav">
+        <a href="/audio_book_list" {{#isAudioBooks}}class="active"{{/isAudioBooks}}>Sesli Kitaplar</a>
+        <a href="/ebooks" {{#isEbooks}}class="active"{{/isEbooks}}>E-Kitaplar</a>
+        <a href="/categories" {{#isCategories}}class="active"{{/isCategories}}>Kategoriler</a>
+    </div>
+    <div class="right-section">
+        {{#is_logged_in}}
+        <div class="utility-links">
+            <a href="/history">Geçmiş</a>
+            <a href="/favorites">Favoriler</a>
+        </div>
+        <div class="dropdown">
+            <div class="user-initials">{{user_first_initial}}</div>
+            <div class="dropdown-content">
+                <a href="#" id="logoutButton">Çıkış Yap</a>
+            </div>
+        </div>
+        {{/is_logged_in}}
+        {{^is_logged_in}}
+        <a href="/login" class="login-btn">Giriş Yap</a>
+        <a href="/register" class="subscribe-btn">Hemen Üye Ol</a>
+        {{/is_logged_in}}
+    </div>
+</nav>
+<script src="/js/home.js"></script>

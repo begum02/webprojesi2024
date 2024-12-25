@@ -7,34 +7,45 @@
     <title>{{book.title}}</title>
     <!-- CSS Dosyasını Yükleme -->
     <link rel="stylesheet" href="/css/audio_book_detail.css">
+    <link rel="stylesheet" href="/css/navbar.css">
 </head>
 
 <body>
-    <!-- Sayfa Başlığı -->
-    <div class="header">
-        Sesli Kitap: {{book.title}}
-    </div>
-
+  <script src="/js/navbar.js"></script>
+    
+        {{> navbar}}
+ 
     <!-- Kitap Detayları -->
     <div class="book-container">
         <div class="book-details">
          <div class="book-image-rating">
             <img src="{{book.cover_image}}" alt="{{book.title}}">
-            <div class="audiobookrating" data-book-id="{{book.id}}" data-user-id="{{user.id}}">
-                <span class="star" data-value="1">&#9733;</span>
-                <span class="star" data-value="2">&#9733;</span>
-                <span class="star" data-value="3">&#9733;</span>
-                <span class="star" data-value="4">&#9733;</span>
-                <span class="star" data-value="5">&#9733;</span>
-                <p>Ortalama Puan: <span id="audiobook-average-rating">{{averageRating}}</span></p>
+            <div class="rating-favorite-container">
+                <div class="audiobookrating" data-book-id="{{book.id}}" data-user-id="{{user.id}}">
+                    <span class="star" data-value="1">&#9733;</span>
+                    <span class="star" data-value="2">&#9733;</span>
+                    <span class="star" data-value="3">&#9733;</span>
+                    <span class="star" data-value="4">&#9733;</span>
+                    <span class="star" data-value="5">&#9733;</span>
+                </div>
+                <button class="favorite-btn" data-book-id="{{book.id}}" data-is-favorite="{{isFavorite}}">
+                    {{#isFavorite}}
+                        Favorilerden Kaldır
+                    {{/isFavorite}}
+                    {{^isFavorite}}
+                        Favorilere Ekle
+                    {{/isFavorite}}
+                </button>
             </div>
         </div>
 
             <div class="book-content">
                 <h1>{{book.title}}</h1>
-                <h3>Yazar: {{book.author}}</h3>
-                <p>{{book.description}}</p>
-                <p><strong>Süre:</strong> {{book.duration}}</p>
+                <h3>Yazar: <span>{{book.author}}</span></h3>
+                <h4>Kategori: <span>{{book.category}}</span></h4>
+                <p><strong>Tanım: </strong>{{book.description}}</p>
+                 <p><strong>Ortalama Puan: </strong><span id="audiobook-average-rating">{{averageRating}}</span></p>
+               
                 <audio controls>
                     <source src="{{book.audio_file}}" type="audio/mpeg">
                     Tarayıcınız bu sesi oynatmayı desteklemiyor.

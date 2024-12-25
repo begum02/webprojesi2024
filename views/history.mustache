@@ -5,28 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Geçmiş - Soundsea</title>
     <link rel="stylesheet" href="/css/history.css">
+    <link rel="stylesheet" href="/css/home.css">
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar">
-        <a href="/" class="logo">Soundsea</a>
-        <div class="nav-links">
-            <a href="/audio_book_list">Sesli Kitaplar</a>
-            <a href="/ebooks">E-Kitaplar</a>
-            <a href="/categories">Kategoriler</a>
-        </div>
-        <div class="auth-buttons">
-            {{#is_logged_in}}
-            <div class="dropdown">
-                <div class="user-initials">{{user_first_initial}}</div>
-                <div class="dropdown-content">
-                    <a href="#" id="logoutButton">Çıkış Yap</a>
-                </div>
-            </div>
-            {{/is_logged_in}}
-        </div>
-    </nav>
-
+        {{> navbar}}
     <div class="container">
         <h1>Geçmiş</h1>
         
@@ -71,5 +54,6 @@
   
 
     <script src="/js/history.js"></script>
+      <script src="/js/navbar.js"></script>
 </body>
 </html>

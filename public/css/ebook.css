@@ -43,7 +43,7 @@ header h1 {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
+    gap: 40px;
     padding: 80px;
 }
 
@@ -52,181 +52,151 @@ header h1 {
     border: 1px solid #ddd;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
     padding: 15px;
     width: 200px;
+    height: 420px;
+    position: relative;
+}
+
+.book-content {
     display: flex;
     flex-direction: column;
-    min-height: 400px; /* Add fixed height */
-    position: relative;
+    gap: 10px;
+    height: calc(100% - 50px);
+    overflow: hidden;
 }
 
 .book-card img {
     width: 100%;
-    height: 250px; /* Fixed height for image */
+    height: 250px;
     object-fit: cover;
     border-radius: 5px;
+    margin-bottom: 15px;
 }
 
 .book-card h3 {
     font-size: 16px;
-    margin: 10px 0 5px;
+    margin: 0;
+    padding: 0 10px;
+    line-height: 1.3;
+    margin-bottom: 10px;
 }
 
 .book-card p {
     font-size: 14px;
     color: #666;
-    margin: 5px 0;
+    margin: 0;
+    padding: 0 10px;
 }
 
-.book-card a {
-    display: inline-block;
+
+.book-card button {
+    display: block;
+    width: calc(100% - 20px);
+    padding: 8px 12px;
+    margin: 100px 0;
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.book-card button:hover {
+    background-color: #2d5955;
+}
+
+.details-btn {
     position: absolute;
-    bottom: 15px;
-   
+    bottom: 10px;
+    left: 15px;
+    right: 15px;
+    display: block;
     padding: 8px 12px;
     background-color: #000000;
-    /* Koyu yeşil */
     color: #ffffff;
-    /* Açık bej */
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.details-btn:hover {
+    background-color: #2d5955;
+}
+
+.ebook-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 30px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.ebook-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    width: 200px;
+    height: 410px;
+    position: relative;
+    margin: 0 auto;
+}
+
+.ebook-content {
+    height: calc(100% - 60px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ebook-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.ebook-item h3 {
+    font-size: 16px;
+    margin: 0;
+    padding: 0 10px;
+    line-height: 1.3;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.ebook-item p {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+    padding: 0 10px;
+    text-align: center;
+}
+
+.ebook-btn {
+    position: absolute;
+    bottom: 35px;
+    left: 15px;
+    right: 15px;
+    padding: 8px 12px;
+    background-color: #000000;
+    color: #ffffff;
+    text-align: center;
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
-    margin-top: auto; /* Push button to bottom */
-    align-self: center; /* Center horizontally */
+    transition: background-color 0.3s ease;
 }
 
-.book-card a:hover {
+.ebook-btn:hover {
     background-color: #2d5955;
-    /* Hover efekti */
 }
-
-
-
-    /* Navbar */
-    .navbar {
-        background-color: var(--primary-blue);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 30px;
-        box-shadow: 0 2px 4px var(--shadow-color);
-    }
-    
-    .navbar .logo {
-        font-size: 24px;
-        font-weight: bold;
-        text-decoration: none;
-        color: var(--white);
-    }
-    
-    .navbar .nav-links {
-        display: flex;
-        gap: 30px;
-    }
-    
-    .navbar .nav-links a {
-        text-decoration: none;
-        color: var(--white);
-        padding: 8px 0;
-        position: relative;
-        transition: all 0.3s ease;
-        opacity: 0.8;
-    }
-    
-    .navbar .nav-links a::after {
-        content: '';
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background-color: var(--white);
-        transform: scaleX(0);
-        transition: transform 0.3s ease;
-    }
-    
-    /* Only highlight ebooks page */
-    .navbar .nav-links a[href="/ebooks"] {
-        opacity: 1;
-    }
-    
-    .navbar .nav-links a[href="/ebooks"]::after {
-        transform: scaleX(1);
-    }
-    
-    /* Hover effect for non-active links */
-    .navbar .nav-links a:not([href="/ebooks"]):hover {
-        opacity: 1;
-    }
-    
-    .navbar .nav-links a:not([href="/ebooks"]):hover::after {
-        transform: scaleX(0.8);
-    }
-    
-    .navbar .auth-buttons {
-        display: flex;
-        gap: 15px;
-        align-items: center;
-    }
-    
-    .auth-buttons .login-btn {
-        color: var(--white);
-        text-decoration: none;
-        padding: 8px 20px;
-        border: 2px solid var(--white);
-        border-radius: 20px;
-        transition: all 0.3s ease;
-    }
-    
-    .auth-buttons .subscribe-btn {
-        color: var(--primary-blue);
-        background: var(--white);
-        text-decoration: none;
-        padding: 8px 20px;
-        border-radius: 20px;
-        font-weight: bold;
-        transition: all 0.3s ease;
-    }
-    
-    .login-btn:hover {
-        background: var(--white);
-        color: var(--primary-blue);
-    }
-    
-    .subscribe-btn:hover {
-        opacity: 0.9;
-    }
-    
-    .navbar .auth-buttons .user-initials {
-        background-color: #3BFAAF;
-        color: #fff;
-        display: inline-block;
-        padding: 10px;
-        border-radius: 50%;
-        width: 15px;
-        height: 15px;
-        font: bold 15px sans-serif;
-        text-align: center;
-        vertical-align: middle;
-        cursor: pointer; /* Kullanıcı avatarına tıklanabilirlik verir */
-    }
-
-     /* Başlangıçta dropdown menüsü gizli */
-.dropdown-content {
-    display: none;
-    position: absolute; /* Menü içeriklerinin dropdown butonunun altında olmasını sağlar */
-    background-color: #ffffff;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    top: 120%; /* Menü, user-initials'ın hemen altında başlar */
-    right:20px; /* Sol tarafta hizalama */
-  
-    
-  }
-  
-  /* Menü görünür olduğunda */
-  .dropdown-content.show {
-    display: block;
-  }

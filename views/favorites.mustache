@@ -4,72 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Favoriler - Soundsea</title>
-    <link rel="stylesheet" href="/css/history.css">
+    <link rel="stylesheet" href="/css/favorite.css">
+    <link rel="stylesheet" href="/css/home.css">
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar">
-        <a href="/" class="logo">Soundsea</a>
-        <div class="nav-links">
-            <a href="/audio_book_list">Sesli Kitaplar</a>
-            <a href="/ebooks">E-Kitaplar</a>
-            <a href="/categories">Kategoriler</a>
-        </div>
-        <div class="auth-buttons">
-            {{#is_logged_in}}
-            <div class="dropdown">
-                <div class="user-initials">{{user_first_initial}}</div>
-                <div class="dropdown-content">
-                    <a href="#" id="logoutButton">Çıkış Yap</a>
-                </div>
-            </div>
-            {{/is_logged_in}}
-        </div>
-    </nav>
+    {{> navbar}}
 
     <div class="container">
-        <h1>Geçmiş</h1>
+        <h1>Favoriler</h1>
         
         <div class="tabs">
-            <button class="tab-button active" data-tab="listened">E-kitap</button>
-            <button class="tab-button" data-tab="read">Sesli Kitap</button>
+            <button class="tab-button" data-tab="audio">Sesli Kitaplar</button>
+            <button class="tab-button active" data-tab="ebook">E-Kitaplar</button>
         </div>
 
-        <div id="listened" class="tab-content active">
-            {{#listened_books}}
+        <div id="audio-favorites" class="tab-content" style="display: none;">
+            {{#favorite_audiobooks}}
             <div class="book-card">
                 <img src="{{cover_image}}" alt="{{title}}">
                 <div class="book-info">
                     <h3>{{title}}</h3>
                     <p class="author">{{author}}</p>
-                    <p class="date">{{created_at}}</p>
+                    <a href="/audio_book_detail/{{id}}" class="details-btn">Detayları Gör</a>
                 </div>
             </div>
-            {{/listened_books}}
-            {{^listened_books}}
-            <p class="no-books">Henüz dinlenen kitap bulunmuyor.</p>
-            {{/listened_books}}
+            {{/favorite_audiobooks}}
+            {{^favorite_audiobooks}}
+            <p class="no-books">Henüz favori sesli kitap bulunmuyor.</p>
+            {{/favorite_audiobooks}}
         </div>
 
-        <div id="read" class="tab-content">
-            {{#read_books}}
+        <div id="ebook-favorites" class="tab-content">
+            {{#favorite_books}}
             <div class="book-card">
                 <img src="{{cover_image}}" alt="{{title}}">
                 <div class="book-info">
                     <h3>{{title}}</h3>
                     <p class="author">{{author}}</p>
-                    <p class="date">{{created_at}}</p>
+                    <a href="/ebook/{{id}}" class="details-btn">Detayları Gör</a>
                 </div>
             </div>
-            {{/read_books}}
-            {{^read_books}}
-            <p class="no-books">Henüz okunan kitap bulunmuyor.</p>
-            {{/read_books}}
+            {{/favorite_books}}
         </div>
     </div>
 
   
 
     <script src="/js/favorites.js"></script>
+      <script src="/js/navbar.js"></script>
 </body>
 </html>

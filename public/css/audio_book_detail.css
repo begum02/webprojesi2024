@@ -10,7 +10,7 @@
 }
 
 body {
-    background-color: var(--bg-light);
+    background-color: var(--white);
     color: var(--gray-dark);
     margin: 0;
     font-family: Arial, sans-serif;
@@ -32,12 +32,16 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    position: relative;
     margin: 50px auto;
     padding: 30px;
     max-width: 800px;
     background: var(--white);
     border-radius: 10px;
-    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.09);
+    border: 1px solid #ddd;
+ 
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .book-details {
@@ -69,21 +73,30 @@ body {
     color: var(--black);
 }
 
-.book-content h3 {
+.book-content h3, 
+.book-content h4 {
     font-size: 1.2rem;
     margin-bottom: 10px;
-    color: var(--gray);
+    color: var(--gray-dark);
+    font-weight: bold;
+}
+
+.book-content h3 span,
+.book-content h4 span {
+    font-weight: normal;
+    font-size:17px;
 }
 
 .book-content p {
     margin-bottom: 15px;
     line-height: 1.6;
-    color: var(--gray);
+    color: var(--gray-dark);
+    font-size:17px;
 }
 
 audio {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 30px;
     border-radius: 20px;
 }
 
@@ -101,16 +114,58 @@ audio {
 .rating {
     margin: 20px 0;
     display: flex;
-    gap: 5px;
+    gap: 8px;
+    justify-content: center;
 }
 
 .star {
-    font-size: 24px;
+    font-size: 35px;
     color: #ddd;
     cursor: pointer;
     transition: color 0.3s ease;
 }
 
 .star.selected {
-    color: var(--cyan);
+    color: var(--black);
+}
+
+.audiobookrating {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    height: 40px;
+    margin-left: 30px;
+    margin-top: 5px;
+}
+
+.favorite-btn {
+    position: absolute;
+    display: block;
+    right: 30px;
+  bottom:45px;
+    height: 40px;
+    padding: 8px 16px;
+    background-color: var(--black);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+}
+
+.favorite-btn:hover {
+    opacity: 0.9;
+}
+
+
+.rating-favorite-container {
+    display: flex;
+    flex-direction: row;
+ justify-content: space-between;
+    gap: 15px;
+    margin: 20px 0;
 }

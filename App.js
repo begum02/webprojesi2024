@@ -6,18 +6,18 @@ const { registerUser, loginUser,logoutUser } = require("./controllers/authContro
 const cors = require("cors"); // CORS modülünü dahil ediyoruz
 const {getTopBooks}=require('./controllers/Lists')
 const{getCategories, getBooksByCategory }=require("./controllers/categories")
-const { fetchBooks ,getEbookDetails} = require('./controllers/ebookController');
-
+const { fetchBooks ,getEbookDetails, getFavoriteBooks } = require('./controllers/ebookController');
+const { getAudioBooks, getAudiobookDetails, getFavoriteAudiobooks, toggleAudiobookFavorite } = require('./controllers/audiobookController');
 const{getAudiobooks}=require('./controllers/getAudiobooks')
 const{fetchAuthors}=require('./controllers/fetchAuthors')
 const { postEbookRating, getEbookRatings,getAudiobookRatings,postAudiobookRating } = require('./controllers/ratingController'); // Rating işlemleri
-const { getAudioBooks,getAudiobookDetails } = require('./controllers/audiobookController');
 const { 
     getReadingHistory, 
     addReadingHistory, 
     getListeningHistory, 
     addListeningHistory 
 } = require('./controllers/historyController');
+const supabase = require('./SupabaseClient');
 
 const  app  = express();
 app.use(cors({
@@ -31,7 +31,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // View engine setup (Mustache)
-app.engine("mustache", mustacheExpress());
+app.engine('mustache', mustacheExpress(path.join(__dirname, 'views/partials')));
 app.set("view engine", "mustache");
 app.set("views", path.join(__dirname, "views"));
 
@@ -51,6 +51,14 @@ app.use(
 
 app.use(express.urlencoded({ extended: true })); // Form verilerini işlemek için
 
+// Add middleware to store original URL
+app.use((req, res, next) => {
+    if (!req.session.is_logged_in && req.path !== '/login') {
+        req.session.returnTo = req.originalUrl;
+    }
+    next();
+});
+
 // Giriş Sayfası
 app.get("/login", (req, res) => {
   res.render("login", { title: "Giriş Yap" });
@@ -60,11 +68,15 @@ app.get("/login", (req, res) => {
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await loginUser(email, password); // authController'daki loginUser fonksiyonunu çağırıyoruz
-    req.session.user = user; // Kullanıcıyı session'a ekliyoruz
-    console.log(req.session.user); // Oturumdaki kullanıcıyı kontrol et
-    req.session.is_logged_in = true;  // Giriş durumu
-    res.redirect("/home");
+    const user = await loginUser(email, password);
+    req.session.user = user;
+    req.session.is_logged_in = true;
+
+    // Get stored URL and clear it
+    const returnUrl = req.session.returnTo || '/home';
+    delete req.session.returnTo;
+
+    res.redirect(returnUrl);
   } catch (error) {
     res.render("login", { title: "Giriş Yap", errorMessages: [error.message] });
   }
@@ -117,7 +129,7 @@ app.get("/", (req, res) => {
   if (req.session.user) {
     res.redirect("/home");
   } else {
-    res.redirect("/login");
+    res.redirect("/home");
   }
 });
 
@@ -377,6 +389,40 @@ app.get('/history', isLoggedIn, async (req, res) => {
 // Add middleware for history routes
 app.post('/api/history/reading', isLoggedIn, addReadingHistory);
 app.post('/api/history/listening', isLoggedIn, addListeningHistory);
+
+// Add new route for favorites
+app.get('/favorites', isLoggedIn, async (req, res) => {
+    try {
+        const favoriteBooks = await getFavoriteBooks();
+        const favoriteAudiobooks = await getFavoriteAudiobooks();
+        
+        res.render('favorites', {
+            is_logged_in: true,
+            user_first_initial: req.session.user.username.charAt(0).toUpperCase(),
+            user: req.session.user,
+            favorite_books: favoriteBooks || [],
+            favorite_audiobooks: favoriteAudiobooks || [],
+            currentPage: 'favorites'
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).render('error', { 
+            message: 'Favoriler yüklenirken bir hata oluştu.' 
+        });
+    }
+});
+
+// Add this route
+app.post('/api/favorites/toggle', isLoggedIn, async (req, res) => {
+    try {
+        const { book_id } = req.body;
+        const result = await toggleAudiobookFavorite(book_id);
+        res.json({ success: true, isFavorite: result.isFavorite });
+    } catch (error) {
+        console.error('Error toggling favorite:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 // Sunucuyu başlatıyoruz
 app.listen(3000, () => {

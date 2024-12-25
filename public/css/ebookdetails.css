@@ -133,7 +133,7 @@
 body {
     margin-top: 80px;
     font-family: Arial, sans-serif;
-    background-color: var(--bg-light);
+    background-color: var(--white);
     color: var(--gray-dark);
     margin: 0;
     padding: 0;
@@ -149,7 +149,9 @@ body {
     padding: 30px;
     background: var(--white);
     border-radius: 10px;
-    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.09);
+    border: 1px solid #ddd;
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-top: 100px;
 }
 
