@@ -143,23 +143,21 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;  /* Reduced from 30px */
+    gap: 10px;
     max-width: 600px;
-    margin: 50px auto;
+    margin: 80px auto 50px;
     padding: 30px;
     background: var(--white);
     border-radius: 10px;
     border: 1px solid #ddd;
-
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 100px;
 }
 
 .book-cover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 5px;
 }
 
 .book-cover img {
@@ -171,21 +169,37 @@ body {
 .book-info {
     display: flex;
     flex-direction: column;
-    gap: 10px;  /* Reduced from 15px */
+    gap: 10px;
     text-align: center;
     width: 100%;
+    margin-top: -10px;
 }
 
 .book-info h1 {
-    margin: 0;
+    margin-bottom: 20px;
     color: var(--black);
     font-size: 1.8rem;
 }
 
 .book-info p {
     margin: 0;
-    color: var(--gray);
     line-height: 1.6;
+    color: var(--gray-dark);
+}
+
+.book-info p strong {
+    color: var(--gray-dark);
+    font-weight: bold;
+}
+
+.book-info p span {
+    color: var(--gray-dark);
+}
+
+.description {
+    color: var(--gray-dark);
+    line-height: 1.6;
+    margin: 15px 0;
 }
 
 .comments,
@@ -239,7 +253,7 @@ button:hover {
 
 /* Yıldızların temel stilini ayarlıyoruz */
 .rating {
-    margin-top: 5px;  /* Reduced from 10px */
+   
     display: flex;
     gap: 5px;  /* Reduced from 8px */
     margin-bottom: 10px;  /* Reduced from 15px */
@@ -248,16 +262,56 @@ button:hover {
 }
 
 .star {
-    font-size: 24px;  /* Reduced from 30px */
-    color: #ddd; /* Boş yıldız rengi */
+    font-size: 30px;
+    color: #ddd;
     cursor: pointer;
     transition: color 0.3s ease; /* Hover geçiş efekti */
+    user-select: none;
 }
 
 .star.selected {
-    color: #ffd700;
+    color: var(--black);
 }
 
 .star:hover {
-    color: #ffd700;
+    color: var(--black);
+}
+
+.star:hover ~ .star {
+    color: #ddd;
+}
+
+.stars-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: -3px 0 8px 0;
+}
+
+.ebookrating {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: -15px;
+}
+
+#average-rating {
+    font-weight: bold;
+    color: var(--black);
+    font-size: 1.1em;
+}
+
+.book-details strong {
+    color: var(--black);
+    font-weight: bold;
+}
+/* Footer */
+.footer {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 20px;
+    font-size: 0.9rem;
 }

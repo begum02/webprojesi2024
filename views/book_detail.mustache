@@ -5,36 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}} - Kitap Detayı</title>
     <link rel="stylesheet" href="/css/ebookdetails.css">
-      <link rel="stylesheet" href="/css/home.css">
+         <link rel="stylesheet" href="/css/navbar.css">
 </head>
 
 <body>
   {{> navbar}}
   <script src="/js/navbar.js"></script>
     <script src="/js/rating.js"></script>
-     <nav class="navbar">
-        <a href="/" class="logo">Soundsea</a>
-        <div class="nav-links">
-            <a href="/audio_book_list">Sesli Kitaplar</a>
-            <a href="/ebooks">E-Kitaplar</a>
-            <a href="/categories">Kategoriler</a>
-        </div>
- <div class="auth-buttons">
-            {{#is_logged_in}}
-            <div class="user-dropdown">
-                <div class="user-initials">{{user_first_initial}}</div>
-                <div class="dropdown-content">
-                    <a href="#" id="logoutButton">Çıkış Yap</a>
-                </div>
-            </div>
-            {{/is_logged_in}}
-
-            {{^is_logged_in}}
-            <a href="/login" class="login-btn">Giriş Yap</a>
-            <a href="/register" class="subscribe-btn">Hemen Üye Ol</a>
-            {{/is_logged_in}}
-        </div>
-    </nav>
+    
 
     <!-- Kitap Detayları -->
     <div class="container">
@@ -44,7 +22,7 @@
             <img src="{{cover_image}}" alt="{{title}}">
             {{/cover_image}}
 
-              <p>Ortalama Puan: <span id="average-rating">{{averageRating}}</span></p>
+              <p><strong>Ortalama Puan:</strong> <span id="average-rating">{{averageRating}}</span></p>
         </div>
 
         <div class="ebookrating" data-book-id="{{id}}" data-user-id="{{user.id}}">
@@ -66,8 +44,8 @@
         <!-- Kitap Bilgileri -->
         <div class="book-info">
             <h1>{{title}}</h1>
-            <p><strong>Yazar:</strong> {{author}}</p>
-            <p><strong>Yayın Tarihi:</strong> {{published_date}}</p>
+            <p><strong>Yazar:</strong> <span>{{author}}</span></p>
+            <p><strong>Yayın Tarihi:</strong> <span>{{published_date}}</span></p>
             <p>{{description}}</p>
 
             <!-- Favorilere Ekle/Kaldır -->
@@ -92,6 +70,9 @@
       
             </div>
         </div>
+           <div class="footer">
+        Tüm hakları saklıdır. | Kitap Platformu
+    </div>
     </div>
 </body>
 </html>

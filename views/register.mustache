@@ -10,21 +10,26 @@
 
 <body>
     <div class="register-container">
-        {{#errorMessages}}
-        <ul class="errorlist">
-            <li>{{.}}</li>
-        </ul>
-        {{/errorMessages}}
+        <div class="register">
+            <h1 class="title1">Soundsea</h1>
+            <h1 class="title2">Kaydol</h1>
+            
+            {{#errorMessages}}
+            <ul class="errorlist">
+                <li>{{.}}</li>
+            </ul>
+            {{/errorMessages}}
 
-        <form action="/register" method="POST">
-          <input type="text" name="username" placeholder="Kullanıcı Adı" required />
-            <input type="email" name="email" placeholder="E-posta" required />
-            <input type="password" name="password" placeholder="Şifre" required />
-            <button type="submit">Kayıt Ol</button>
-        </form>
+            <form action="/register" method="POST">
+                <input type="text" name="username" placeholder="Kullanıcı Adı" required />
+                <input type="email" name="email" placeholder="E-posta" required />
+                <input type="password" name="password" placeholder="Şifre" required />
+                <button type="submit">Kayıt Ol</button>
+            </form>
 
-        <div class="login-link">
-            <p>Zaten bir hesabınız var mı? <a href="/login">Giriş Yap</a></p>
+            <div class="login-link">
+                <p>Zaten bir hesabınız var mı? <a href="/login">Giriş Yap</a></p>
+            </div>
         </div>
     </div>
 </body>

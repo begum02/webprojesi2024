@@ -322,8 +322,10 @@ app.get('/ebook/:id', async (req, res) => {
             cover_image: ebookDetails.cover_image,
             description: ebookDetails.description,
             ratings: ratingsData.ratings || [],
-            averageRating: ratingsData.averageRating || 0,
-            user: req.session.user,
+            averageRating: (ratingsData.averageRating || 0).toFixed(1),
+            is_logged_in: req.session.is_logged_in || false,
+            user_first_initial: req.session?.user?.username?.charAt(0).toUpperCase() || '',
+            user: req.session.user || null,
             isLoggedIn: req.session.is_logged_in || false
         });
     } catch (err) {
